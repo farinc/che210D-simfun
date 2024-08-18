@@ -1,0 +1,12 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "f2py",
+            "type": "shell",
+            "command": "f2py -c -m ex2lib ex2lib.f90 --fcompiler=gnu95"
+        }
+    ]
+}
