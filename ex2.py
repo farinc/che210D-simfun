@@ -203,11 +203,12 @@ Output:
 #np.random.seed(43045820)
 
 #%% Part C
-
+print("Part C")
 K = 6 # number of trials
 PE_list = []
 for n in range(2,25):
     for k in range(1,K):
+        print(f"Started trials of K={k} with {n} particles")
         p = InitPositions(n, 10*np.sqrt(n))
         PE,Pos2 = ConjugateGradient(positions=p, dx=0.001, EFracTolCG=1e-10,EFracTolLS=1e-8)
         PE_list.append({"n": n, "trial": k, "energy": PE})
@@ -219,23 +220,23 @@ with open("part c.csv", 'w') as file:
     df_c.to_csv(file, index=False)
 
 # %% Part D
+print("Part D")
 K = [100, 1000, 10000] # number of trials
 N = list(range(2,25))
 #K = [1,2,3] # test
-data_d = []
 for k in K:
+    data = []
     PE_list = np.empty(shape=(k,1))
     for n in N:
         print(f"Started trials of K={k} with {n} particles")
         for trial in range(0,k):
             p = InitPositions(n, 10*np.sqrt(n))
             energy,_ = ConjugateGradient(positions=p, dx=0.001, EFracTolCG=1e-10,EFracTolLS=1e-8)
-            PE_list[trial] = energy
+            PE_list[trial] = energy 
         mean = np.mean(PE_list)
         minma = np.min(PE_list)
-        data_d.append({'N': n, 'K': k, 'avg energy': mean, 'min energy': minma})
-df_d = pd.DataFrame(data_d)
-df_d.pivot_table(index='N', columns='K', values=['avg energy','min energy'])
-
-with open("part d.csv", 'w') as file:
-    df_d.to_csv(file, index=False)
+        data.append({'N': n, 'K': k, 'avg energy': mean, 'min energy': minma})
+    df = pd.DataFrame(data).pivot_table(index='N', columns='K', values=['avg energy','min energy'])
+    with open(f"partd_{k}.csv", 'w') as file:
+        df.to_csv(file, index=False)
+# %%
